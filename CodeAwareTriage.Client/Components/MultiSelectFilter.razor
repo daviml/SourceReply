@@ -1,0 +1,63 @@
+
+
+<div class="relative group">
+  <button @onclick="ToggleOpen" class="@ButtonClass">
+    <span class="truncate">@ButtonText</span>
+    <svg class="@SvgClass" fill="none" stroke="currentColor" viewBox="0 0 24 24" height="12" width="12">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  @if (IsOpen)
+  {
+      <>
+      <div class="fixed inset-0 z-10" @onclick="Close"></div>
+      <div class="absolute left-0 mt-1 w-48 bg-[#1a1a24] border border-[#3f3f5a] rounded-lg shadow-2xl z-20 py-2 max-h-60 overflow-y-auto">
+        @foreach (var val in DistinctValues)
+        {
+          <label class="flex items-center px-4 py-1.5 hover:bg-[#21212c] cursor-pointer text-xs text-gray-300">
+            <input type="checkbox" checked="@IsSelected(val)" @onchange="@(() => ToggleValue(val))" class="mr-3 rounded bg-[#0d0d12] border-[#3f3f5a] text-[#594ae2] focus:ring-0" />
+            @val
+          </label>
+        }
+        @if (!DistinctValues.Any())
+        {
+            <div class="px-4 py-2 text-gray-600 text-[10px]">Sem valores</div>
+        }
+      </div>
+      </>
+  }
+</div>
+
+@code {
+    [Parameter] public string ColumnName { get; set; } = "";
+    [Parameter] public IEnumerable<object?> Values { get; set; } = new List<object?>();
+    [Parameter] public EventCallback<List<object?>> OnFilterChange { get; set; }
+
+    private bool IsOpen { get; set; }
+    private List<object?> Selected { get; set; } = new();
+
+    private IEnumerable<object?> DistinctValues => Values.Distinct().OrderBy(x => x?.ToString());
+
+    private string ButtonClass => $"w-full text-left px-2 py-1 rounded bg-[#0d0d12] border transition-all text-xs flex justify-between items-center {(Selected.Any() ? "border-[#594ae2] text-white" : "border-[#3f3f5a] text-gray-500")}";
+    private string ButtonText => Selected.Any() ? $"{Selected.Count} selecionados" : ColumnName;
+    private string SvgClass => $"w-3 h-3 transition-transform {(IsOpen ? "rotate-180" : "")}";
+
+    private void ToggleOpen() => IsOpen = !IsOpen;
+    private void Close() => IsOpen = false;
+
+    private bool IsSelected(object? val) => Selected.Contains(val);
+
+    private async Task ToggleValue(object? val)
+    {
+        if (Selected.Contains(val))
+        {
+            Selected.Remove(val);
+        }
+        else
+        {
+            Selected.Add(val);
+        }
+        await OnFilterChange.InvokeAsync(Selected);
+    }
+}
