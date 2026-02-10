@@ -1,4 +1,4 @@
-namespace CodeAwareTriage.Client.Models;
+namespace CodeAwareTriage.UI.Models;
 
 public class DynamicRow : Dictionary<string, object>
 {

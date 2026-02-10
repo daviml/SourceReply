@@ -1,8 +1,8 @@
-using CodeAwareTriage.Client.Models;
+using CodeAwareTriage.UI.Models;
 using ExcelDataReader;
 using System.Data;
 
-namespace CodeAwareTriage.Client.Services;
+namespace CodeAwareTriage.UI.Services;
 
 public class ExcelService
 {

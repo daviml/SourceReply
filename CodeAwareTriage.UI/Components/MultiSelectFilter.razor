@@ -22,7 +22,7 @@
         }
         @if (!DistinctValues.Any())
         {
-            <div class="px-4 py-2 text-gray-600 text-[10px]">Sem valores</div>
+            <div class="px-4 py-2 text-gray-600 text-[10px]">No values</div>
         }
       </div>
       </>
@@ -40,7 +40,7 @@
     private IEnumerable<object?> DistinctValues => Values.Distinct().OrderBy(x => x?.ToString());
 
     private string ButtonClass => $"w-full text-left px-2 py-1 rounded bg-[#0d0d12] border transition-all text-xs flex justify-between items-center {(Selected.Any() ? "border-[#594ae2] text-white" : "border-[#3f3f5a] text-gray-500")}";
-    private string ButtonText => Selected.Any() ? $"{Selected.Count} selecionados" : ColumnName;
+    private string ButtonText => Selected.Any() ? $"{Selected.Count} selected" : ColumnName;
     private string SvgClass => $"w-3 h-3 transition-transform {(IsOpen ? "rotate-180" : "")}";
 
     private void ToggleOpen() => IsOpen = !IsOpen;

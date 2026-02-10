@@ -1,9 +1,9 @@
-using CodeAwareTriage.Client.Models;
+using CodeAwareTriage.UI.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace CodeAwareTriage.Client.Services;
+namespace CodeAwareTriage.UI.Services;
 
 public class GeminiService
 {
